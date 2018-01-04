@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ChekakMessenger</string>
+    <string name="welcomeMessage">Welcome to Chekak Messenger</string>
+    <string name="create_acc_btn">Create new account</string>
+    <string name="login_acc">Login existing account</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="create">Create</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="login_using_exiting_account">Login using an exiting account</string>
+    <string name="create_a_new_account">Create a new account</string>
+</resources>

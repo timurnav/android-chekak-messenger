@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1093588890745",
+    "firebase_url": "https://chekack-messenger.firebaseio.com",
+    "project_id": "chekack-messenger",
+    "storage_bucket": "chekack-messenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093588890745:android:630e50237b121df0",
+        "android_client_info": {
+          "package_name": "com.developer.timurnav.chekak.chekakmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093588890745-34nu48u345n7pdotbhm3kf3ia5use8bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.developer.timurnav.chekak.chekakmessenger",
+            "certificate_hash": "63a5b8d56cd71026d139393da138ad5a28ea8c81"
+          }
+        },
+        {
+          "client_id": "1093588890745-lgomhdb66mif377q7tlfppov62fsanbl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDupG9NtrvsamaiJEdlcuhRrVE3RPiGzv4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093588890745-lgomhdb66mif377q7tlfppov62fsanbl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
