@@ -10,4 +10,8 @@
     <string name="enter_name">Enter your name</string>
     <string name="login_using_exiting_account">Login using an exiting account</string>
     <string name="create_a_new_account">Create a new account</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
 </resources>
