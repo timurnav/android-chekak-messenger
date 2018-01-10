@@ -1,8 +1,12 @@
 package com.developer.timurnav.chekak.chekakmessenger.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.developer.timurnav.chekak.chekakmessenger.R
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +23,10 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         doLoginButton.setOnClickListener {
+            val imm = this@LoginActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            val view = this@LoginActivity.currentFocus ?: View(this@LoginActivity)
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+
             val email = loginEmailField.text.toString().trim()
             val password = loginPasswordField.text.toString().trim()
             when {
@@ -48,8 +56,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onUserAuthorized() {
-        startActivity(Intent(this, DashboardActivity::class.java))
-        finish()
+        if (mAuth.currentUser!!.isEmailVerified) {
+            startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
+        } else {
+            mAuth.signOut()
+            Snackbar.make(findViewById(android.R.id.content), "You must accept your email before login", Snackbar.LENGTH_INDEFINITE)
+                    .show()
+        }
     }
 
 }

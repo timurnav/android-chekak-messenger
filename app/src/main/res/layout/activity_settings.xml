@@ -1,8 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EEEEEE"
     tools:context="com.developer.timurnav.chekak.chekakmessenger.activities.SettingsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/ic_person_black_48dp" />
+
+    <TextView
+        android:id="@+id/textViewSettingsUserName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/circleImageView"
+        android:background="#FFFFFF"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/display_name"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewSettingsUserNameDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewSettingsUserName"
+        android:layout_margin="16dp"
+        android:text="@string/settings_name_description" />
+
+    <LinearLayout
+        android:id="@+id/layoutUserData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewSettingsUserNameDescription"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp">
+
+        <RelativeLayout
+            android:id="@+id/layoutSettingsStatus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewSettingsAboutLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/settings_status_label"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/textViewSettingsStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewSettingsAboutLabel"
+                tools:text="I\'m happy to use chekak messenger" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/separator" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewSettingsEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/settings_email_label"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewSettingsEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewSettingsEmailLabel"
+                tools:text="User Email" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutUserData"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/buttonChangePassword"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/change_password" />
+
+        <Button
+            android:id="@+id/buttonEditProfile"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_profile" />
+
+    </LinearLayout>
+</RelativeLayout>

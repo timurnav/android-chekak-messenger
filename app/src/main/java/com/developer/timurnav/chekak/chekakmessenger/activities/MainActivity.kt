@@ -2,6 +2,7 @@ package com.developer.timurnav.chekak.chekakmessenger.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import com.developer.timurnav.chekak.chekakmessenger.R
 import com.google.firebase.auth.FirebaseAuth
@@ -20,8 +21,17 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mListener = FirebaseAuth.AuthStateListener {
             it.currentUser?.let {
-                startActivity(Intent(this, DashboardActivity::class.java))
-                finish()
+                if (it.isEmailVerified) {
+                    startActivity(Intent(this, DashboardActivity::class.java))
+                    finish()
+                } else {
+                    mAuth.signOut()
+                    Snackbar.make(findViewById(android.R.id.content), "Please accept your email and then you will be able to login", Snackbar.LENGTH_INDEFINITE)
+                            .setAction("To Login", {
+                                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                                finish()
+                            }).show()
+                }
             }
         }
 

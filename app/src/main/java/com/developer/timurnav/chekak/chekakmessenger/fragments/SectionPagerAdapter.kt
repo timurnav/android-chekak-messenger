@@ -3,9 +3,7 @@ package com.developer.timurnav.chekak.chekakmessenger.fragments
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-class SectionPagerAdapter(
-        manager: FragmentManager
-) : FragmentPagerAdapter(manager) {
+class SectionPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
 
     override fun getItem(position: Int) =
             when (position) {
