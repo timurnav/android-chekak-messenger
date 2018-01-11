@@ -46,12 +46,11 @@ class LoginActivity : AppCompatActivity() {
                     if (it.isSuccessful)
                         onUserAuthorized()
                     else
-                        onUserCreatingFailed()
+                        onUserCreatingFailed(it.exception!!.message)
                 }
     }
 
-    private fun onUserCreatingFailed() {
-        val message = "Incorrect email or password"
+    private fun onUserCreatingFailed(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 

@@ -23,4 +23,8 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="change_password">Change Password</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="enter_your_old_password">Enter your old password</string>
+    <string name="enter_your_new_password">Enter your new password</string>
+    <string name="confirm_your_new_password">Confirm password</string>
+    <string name="apply_changes">Apply changes</string>
 </resources>
