@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.developer.timurnav.chekak.chekakmessenger.R
 import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
 import com.theartofdev.edmodo.cropper.CropImage
@@ -28,26 +29,34 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         buttonChangePassword.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity, ChangePasswordActivity::class.java))
+            startActivityForResult(Intent(this, ChangePasswordActivity::class.java), 1)
         }
 
         buttonEditProfile.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity, EditProfileActivity::class.java))
+            startActivityForResult(Intent(this, EditProfileActivity::class.java), 2)
         }
 
         layoutSettingsStatus.setOnClickListener {
-            startActivity(Intent(this@SettingsActivity, StatusHistoryActivity::class.java))
+            startActivityForResult(Intent(this, StatusHistoryActivity::class.java), 3)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-
-            0 -> if (resultCode == Activity.RESULT_OK) startCropActivity(data!!.data)
-
-            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> storeCropImage(data!!)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                0 -> startCropActivity(data!!.data)
+                1 -> {
+                    Toast.makeText(this, "Password changed successfully", Toast.LENGTH_LONG).show()
+                }
+                2 -> {
+                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_LONG).show()
+                }
+                3 -> {
+                    Toast.makeText(this, "Status changed successfully", Toast.LENGTH_LONG).show()
+                }
+                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> storeCropImage(data!!)
+            }
         }
-
     }
 
     private fun storeCropImage(data: Intent) {

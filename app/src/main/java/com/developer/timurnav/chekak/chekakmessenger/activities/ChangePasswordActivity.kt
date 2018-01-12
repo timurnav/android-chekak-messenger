@@ -1,5 +1,7 @@
 package com.developer.timurnav.chekak.chekakmessenger.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
@@ -21,7 +23,7 @@ class ChangePasswordActivity : AppCompatActivity() {
                 oldPassword.isEmpty() -> {
                     Toast.makeText(this@ChangePasswordActivity, "Old password must not be empty", Toast.LENGTH_LONG).show()
                 }
-                confirmPassword != newPassword -> {
+                newPassword.isEmpty() -> {
                     Toast.makeText(this@ChangePasswordActivity, "New password must not be empty", Toast.LENGTH_LONG).show()
                 }
                 confirmPassword != newPassword -> {
@@ -36,7 +38,8 @@ class ChangePasswordActivity : AppCompatActivity() {
                                             .updatePassword(newPassword)
                                             .addOnCompleteListener {
                                                 if (it.isSuccessful) {
-                                                    Toast.makeText(this@ChangePasswordActivity, "Password changed successfully", Toast.LENGTH_LONG).show()
+                                                    setResult(Activity.RESULT_OK, Intent())
+                                                    finish()
                                                 } else {
                                                     Toast.makeText(this@ChangePasswordActivity, it.exception!!.message, Toast.LENGTH_LONG).show()
                                                 }
