@@ -54,9 +54,8 @@ class CreateAccountActivity : AppCompatActivity() {
                         val user = User(
                                 name = name,
                                 status = "",
-                                image = "default",
-                                thumbImage = "default",
-                                email = email
+                                email = email,
+                                id = mAuth.currentUser!!.uid
                         )
                         userDao.storeUser(
                                 user = user,

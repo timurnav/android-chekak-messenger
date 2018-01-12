@@ -7,19 +7,19 @@
     tools:context="com.developer.timurnav.chekak.chekakmessenger.activities.SettingsActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
+        android:id="@+id/imageViewSettingsUserProfile"
         android:layout_width="155dp"
         android:layout_height="155dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
-        android:background="@drawable/ic_person_black_48dp" />
+        android:src="@drawable/ic_person_black_48dp" />
 
     <TextView
         android:id="@+id/textViewSettingsUserName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/circleImageView"
+        android:layout_below="@+id/imageViewSettingsUserProfile"
         android:background="#FFFFFF"
         android:paddingBottom="8dp"
         android:paddingEnd="16dp"

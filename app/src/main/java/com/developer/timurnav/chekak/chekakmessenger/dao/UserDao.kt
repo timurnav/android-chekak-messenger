@@ -21,10 +21,12 @@ class UserDao {
             }
 
             override fun onDataChange(user: DataSnapshot) {
+                val auth = FirebaseAuth.getInstance()
                 onUserFetched(User(
+                        id = auth.currentUser!!.uid,
                         name = user.child("name").value as String,
                         status = user.child("status").value as String,
-                        email = auth().currentUser!!.email ?: "",
+                        email = auth.currentUser!!.email ?: "",
                         image = user.child("image").value as String,
                         thumbImage = user.child("thumbImage").value as String
                 ))
@@ -38,7 +40,5 @@ class UserDao {
                 .child("Users")
                 .child(userId)
     }
-
-    private fun auth() = FirebaseAuth.getInstance()
 
 }
