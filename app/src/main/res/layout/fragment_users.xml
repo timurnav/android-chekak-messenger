@@ -2,10 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.developer.timurnav.chekak.chekakmessenger.fragments.UsersFragment">
+
+    <EditText
+        android:id="@+id/editTextNamesListFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/usersRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/editTextNamesListFilter"
+        tools:listitem="@layout/item_users_list" />
 </RelativeLayout>

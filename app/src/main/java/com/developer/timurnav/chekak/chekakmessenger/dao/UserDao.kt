@@ -21,24 +21,43 @@ class UserDao {
             }
 
             override fun onDataChange(user: DataSnapshot) {
-                val auth = FirebaseAuth.getInstance()
-                onUserFetched(User(
-                        id = auth.currentUser!!.uid,
-                        name = user.child("name").value as String,
-                        status = user.child("status").value as String,
-                        email = auth.currentUser!!.email ?: "",
-                        image = user.child("image").value as String,
-                        thumbImage = user.child("thumbImage").value as String
-                ))
+                onUserFetched(mapUser(user))
             }
         })
     }
 
-    private fun getUserRef(): DatabaseReference {
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        return FirebaseDatabase.getInstance().reference
-                .child("Users")
-                .child(userId)
+    fun fetchAllUsers(onFetched: (List<User>) -> Unit = {}, onFailed: (String) -> Unit = {}) {
+        allUsersRef().addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                onFailed(error.message)
+            }
+
+            override fun onDataChange(usersSnapshot: DataSnapshot) {
+                onFetched(
+                        usersSnapshot.children
+                                .map { mapUser(it) }
+                )
+            }
+        })
     }
+
+    private fun mapUser(user: DataSnapshot): User {
+        return User(
+                id = user.child("id").value as String,
+                name = user.child("name").value as String,
+                status = user.child("status").value as String,
+                email = user.child("email").value as String,
+                image = user.child("image").value as String,
+                thumbImage = user.child("thumbImage").value as String
+        )
+    }
+
+    private fun getUserRef(): DatabaseReference {
+        return allUsersRef()
+                .child(FirebaseAuth.getInstance().currentUser!!.uid)
+    }
+
+    private fun allUsersRef() = FirebaseDatabase.getInstance().reference
+            .child("Users")
 
 }
