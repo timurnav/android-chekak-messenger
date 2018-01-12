@@ -20,24 +20,18 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        userDao.fetchUserData(
-                onUserFetched = {
-                    textViewSettingsUserName.text = it.name
-                    textViewSettingsStatus.text = it.status
-                    textViewSettingsEmail.text = it.email
-                }
-        )
+        actualizeUserData()
 
         buttonChangePassword.setOnClickListener {
-            startActivityForResult(Intent(this, ChangePasswordActivity::class.java), 1)
+            startActivityForResult(Intent(this, ChangePasswordActivity::class.java), CHANGE_PASSWORD_ACTIVITY_CODE)
         }
 
         buttonEditProfile.setOnClickListener {
-            startActivityForResult(Intent(this, EditProfileActivity::class.java), 2)
+            startActivityForResult(Intent(this, EditProfileActivity::class.java), EDIT_PROFILE_ACTIVITY_CODE)
         }
 
         layoutSettingsStatus.setOnClickListener {
-            startActivityForResult(Intent(this, StatusHistoryActivity::class.java), 3)
+            startActivityForResult(Intent(this, StatusHistoryActivity::class.java), CHANGE_STATUS_ACTIVITY_CODE)
         }
     }
 
@@ -45,18 +39,30 @@ class SettingsActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 0 -> startCropActivity(data!!.data)
-                1 -> {
+                CHANGE_PASSWORD_ACTIVITY_CODE -> {
                     Toast.makeText(this, "Password changed successfully", Toast.LENGTH_LONG).show()
                 }
-                2 -> {
+                EDIT_PROFILE_ACTIVITY_CODE -> {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_LONG).show()
+                    actualizeUserData()
                 }
-                3 -> {
+                CHANGE_STATUS_ACTIVITY_CODE -> {
                     Toast.makeText(this, "Status changed successfully", Toast.LENGTH_LONG).show()
+                    actualizeUserData()
                 }
                 CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> storeCropImage(data!!)
             }
         }
+    }
+
+    private fun actualizeUserData() {
+        userDao.fetchUserData(
+                onUserFetched = {
+                    textViewSettingsUserName.text = it.name
+                    textViewSettingsStatus.text = it.status
+                    textViewSettingsEmail.text = it.email
+                }
+        )
     }
 
     private fun storeCropImage(data: Intent) {
@@ -67,5 +73,11 @@ class SettingsActivity : AppCompatActivity() {
         CropImage.activity(image)
                 .setAspectRatio(1, 1)
                 .start(this)
+    }
+
+    private companion object {
+        private val CHANGE_PASSWORD_ACTIVITY_CODE = 1
+        private val EDIT_PROFILE_ACTIVITY_CODE = 2
+        private val CHANGE_STATUS_ACTIVITY_CODE = 3
     }
 }
