@@ -52,12 +52,14 @@ class UsersFragment : Fragment() {
     private fun startFiltering() {
         val thread = Thread({
             while (true) {
-                val nameFilter = editTextNamesListFilter.text.toString().trim()
-                if (nameFilter.isNotEmpty() || nameFilter != currentNameFilter) {
-                    currentNameFilter = nameFilter
-                    activity!!.runOnUiThread({
-                        filterUsersList()
-                    })
+                editTextNamesListFilter?.let {
+                    val nameFilter = editTextNamesListFilter.text.toString().trim()
+                    if (nameFilter.isNotEmpty() || nameFilter != currentNameFilter) {
+                        currentNameFilter = nameFilter
+                        activity!!.runOnUiThread({
+                            filterUsersList()
+                        })
+                    }
                 }
                 TimeUnit.MILLISECONDS.sleep(300)
             }

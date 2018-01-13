@@ -23,8 +23,8 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         doLoginButton.setOnClickListener {
-            val imm = this@LoginActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            val view = this@LoginActivity.currentFocus ?: View(this@LoginActivity)
+            val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            val view = this.currentFocus ?: View(this)
             imm.hideSoftInputFromWindow(view.windowToken, 0)
 
             val email = loginEmailField.text.toString().trim()

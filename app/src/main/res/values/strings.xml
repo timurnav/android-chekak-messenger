@@ -28,4 +28,5 @@
     <string name="apply_changes">Apply changes</string>
     <string name="your_current_status">Your current status</string>
     <string name="start_typing_a_status">Start typing a status</string>
+    <string name="title_activity_private_chat">PrivateChatActivity</string>
 </resources>

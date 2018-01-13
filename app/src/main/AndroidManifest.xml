@@ -27,6 +27,10 @@
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.StatusHistoryActivity" />
+        <activity
+            android:name=".activities.PrivateChatActivity"
+            android:label="@string/title_activity_private_chat"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
