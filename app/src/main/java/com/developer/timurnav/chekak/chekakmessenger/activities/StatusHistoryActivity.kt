@@ -11,16 +11,19 @@ import com.developer.timurnav.chekak.chekakmessenger.R
 import com.developer.timurnav.chekak.chekakmessenger.dao.StatusesHistoryDao
 import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
 import kotlinx.android.synthetic.main.activity_status_history.*
+import java.util.concurrent.TimeUnit
 
 class StatusHistoryActivity : AppCompatActivity() {
 
     private val userDao = UserDao()
     private val statusesHistoryDao = StatusesHistoryDao()
 
-    private val statusList = ArrayList<String>()
+    private val statusesList = ArrayList<String>()
+    private val statusesDisplayedList = ArrayList<String>()
+
     private val adapter =
             StatusHistoryItemAdapter(
-                    statusList, this,
+                    statusesDisplayedList, this,
                     { ifStatusChanged(it, { setStatus(it) }) }
             )
 
@@ -33,7 +36,8 @@ class StatusHistoryActivity : AppCompatActivity() {
         })
 
         statusesHistoryDao.fetchAll(onFetched = {
-            statusList.addAll(it)
+            statusesList.addAll(it)
+            statusesDisplayedList.addAll(it)
         })
 
         buttonSetStatus.setOnClickListener {
@@ -49,19 +53,41 @@ class StatusHistoryActivity : AppCompatActivity() {
         val itemSeparator = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerViewStatusHistory.addItemDecoration(itemSeparator)
 
+        filterList()
+    }
 
+    private fun filterList() {
+        var previousValue = ""
+        val thread = Thread({
+            while (true) {
+                val newStatus = editTextStatus.text.toString().trim()
+                if (newStatus.isNotEmpty() || newStatus != previousValue) {
+                    previousValue = newStatus
+                    statusesDisplayedList.clear()
+                    statusesDisplayedList.addAll(statusesList.filter { it.contains(newStatus) })
+                    runOnUiThread({
+                        adapter.notifyDataSetChanged()
+                    })
+                }
+                TimeUnit.MILLISECONDS.sleep(300)
+            }
+        })
+        thread.isDaemon = true
+        thread.start()
     }
 
     private fun setStatus(newStatus: String) {
         textViewCurrentStatus.text = newStatus
-        userDao.fetchUserData(onUserFetched = {
-            userDao.storeUser(it.copy(status = newStatus), onSuccess = {
-                setResult(Activity.RESULT_OK, Intent())
-                finish()
+        if (newStatus.isNotEmpty()) {
+            userDao.fetchUserData(onUserFetched = {
+                userDao.storeUser(it.copy(status = newStatus), onSuccess = {
+                    setResult(Activity.RESULT_OK, Intent())
+                    finish()
+                })
             })
-        })
-        if (!statusList.contains(newStatus)) {
-            statusList.add(newStatus)
+        }
+        if (!statusesDisplayedList.contains(newStatus)) {
+            statusesDisplayedList.add(newStatus)
             adapter.notifyDataSetChanged()
             statusesHistoryDao.addStatus(newStatus)
         }

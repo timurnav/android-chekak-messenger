@@ -1,6 +1,5 @@
 package com.developer.timurnav.chekak.chekakmessenger.dao
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -8,6 +7,7 @@ class StatusesHistoryDao {
 
     fun addStatus(status: String, onSuccess: () -> Unit = {}, onFailed: () -> Unit = {}) {
         getStatusesRef()
+                .push()
                 .setValue(status)
                 .addOnCompleteListener {
                     if (it.isSuccessful) onSuccess() else onFailed()
@@ -21,8 +21,8 @@ class StatusesHistoryDao {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("Chetatam", snapshot.toString())
-                onFetched(listOf())
+                val statuses = snapshot.children.map { it.value as String }
+                onFetched(statuses)
             }
         })
     }
@@ -33,7 +33,6 @@ class StatusesHistoryDao {
         return FirebaseDatabase.getInstance().reference
                 .child("Statuses")
                 .child(userId)
-                .push()
     }
 
 }

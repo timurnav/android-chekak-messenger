@@ -30,7 +30,7 @@ class StatusHistoryItemAdapter(
         private val statusView = view.findViewById<TextView>(R.id.textViewStoredStatus)
 
         fun bindView(status: String) {
-            statusView.text = status
+            statusView.text = status.trim()
             statusView.setOnClickListener {
                 onStatusSelected(status)
             }

@@ -53,7 +53,7 @@ class CreateAccountActivity : AppCompatActivity() {
                         mAuth.currentUser!!.sendEmailVerification()
                         val user = User(
                                 name = name,
-                                status = "Chekak brodyaga",
+                                status = "",
                                 image = "default",
                                 thumbImage = "default",
                                 email = email
