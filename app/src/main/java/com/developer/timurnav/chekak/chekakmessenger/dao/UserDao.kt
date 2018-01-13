@@ -21,9 +21,23 @@ class UserDao {
             }
 
             override fun onDataChange(user: DataSnapshot) {
-                onUserFetched(mapUser(user))
+                onUserFetched(User.mapper(user))
             }
         })
+    }
+
+    fun listenUserById(userId: String, onUserUpdated: (User) -> Unit) {
+        allUsersRef()
+                .child(userId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val user = User.mapper(snapshot)
+                        onUserUpdated(user)
+                    }
+                })
     }
 
     fun fetchAllUsers(onFetched: (List<User>) -> Unit = {}, onFailed: (String) -> Unit = {}) {
@@ -33,23 +47,10 @@ class UserDao {
             }
 
             override fun onDataChange(usersSnapshot: DataSnapshot) {
-                onFetched(
-                        usersSnapshot.children
-                                .map { mapUser(it) }
-                )
+                val users = usersSnapshot.children.map(User.Companion::mapper)
+                onFetched(users)
             }
         })
-    }
-
-    private fun mapUser(user: DataSnapshot): User {
-        return User(
-                id = user.child("id").value as String,
-                name = user.child("name").value as String,
-                status = user.child("status").value as String,
-                email = user.child("email").value as String,
-                image = user.child("image").value as String,
-                thumbImage = user.child("thumbImage").value as String
-        )
     }
 
     private fun getUserRef(): DatabaseReference {

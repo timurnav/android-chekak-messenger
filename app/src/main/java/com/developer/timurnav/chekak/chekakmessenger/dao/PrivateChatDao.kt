@@ -1,5 +1,7 @@
 package com.developer.timurnav.chekak.chekakmessenger.dao
 
+import com.developer.timurnav.chekak.chekakmessenger.model.Message
+import com.developer.timurnav.chekak.chekakmessenger.model.OwnedMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -8,7 +10,44 @@ import com.google.firebase.database.ValueEventListener
 
 class PrivateChatDao {
 
-    fun fetchChatIdWithUser(userId: String, onFetched: (String) -> Unit) {
+    fun fetchChat(chatId: String,
+                  onMessagesSetChanged: (List<OwnedMessage>) -> Unit) {
+        val myId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        allPrivateChatsRef()
+                .child(chatId)
+                .child("messages")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError?) {
+                    }
+
+                    override fun onDataChange(usersSnapshot: DataSnapshot) {
+                        val messages = usersSnapshot.children
+                                .map(Message.Companion::mapper)
+                                .map { OwnedMessage(isMine = myId == it.authorId, message = it) }
+                        onMessagesSetChanged(messages)
+                    }
+                })
+    }
+
+    fun sendMessageToChat(chatId: String, message: String) {
+        val messageKey = allPrivateChatsRef()
+                .child(chatId)
+                .child("messages")
+                .push().key
+        allPrivateChatsRef()
+                .child(chatId)
+                .child("messages")
+                .child(messageKey)
+                .setValue(Message(
+                        id = messageKey,
+                        authorId = FirebaseAuth.getInstance().currentUser!!.uid,
+                        message = message,
+                        timestamp = System.currentTimeMillis()
+                ))
+    }
+
+    fun fetchChatIdWithUser(userId: String, onIdFetched: (String) -> Unit) {
         allPrivateChatsMappingRef()
                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -19,15 +58,15 @@ class PrivateChatDao {
                     override fun onDataChange(allPrivateChats: DataSnapshot) {
                         val chat = allPrivateChats.children.singleOrNull { userId == it.key }
                         if (chat == null) {
-                            createChatWith(userId, { onFetched(it) })
+                            createChatWith(userId, { onIdFetched(it) })
                         } else {
-                            onFetched(chat.value as String)
+                            onIdFetched(chat.value as String)
                         }
                     }
                 })
     }
 
-    fun createChatWith(userId: String, onCreated: (String) -> Unit, onFailed: (String) -> Unit = {}) {
+    private fun createChatWith(userId: String, onCreated: (String) -> Unit, onFailed: (String) -> Unit = {}) {
         val myId = FirebaseAuth.getInstance().currentUser!!.uid
 
         val key = allPrivateChatsRef().push().key
