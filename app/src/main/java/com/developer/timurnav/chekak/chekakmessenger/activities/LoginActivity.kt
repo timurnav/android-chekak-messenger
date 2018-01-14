@@ -56,11 +56,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun onUserAuthorized() {
         if (mAuth.currentUser!!.isEmailVerified) {
-            startActivity(Intent(this, DashboardActivity::class.java))
+            startActivity(Intent(this, ChatsActivity::class.java))
             finish()
         } else {
             mAuth.signOut()
-            Snackbar.make(findViewById(android.R.id.content), "You must accept your email before login", Snackbar.LENGTH_INDEFINITE)
+            Snackbar
+                    .make(
+                            findViewById(android.R.id.content),
+                            "You must accept your email before login",
+                            Snackbar.LENGTH_INDEFINITE
+                    )
                     .show()
         }
     }

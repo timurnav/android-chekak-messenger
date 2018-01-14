@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.fragments
+package com.developer.timurnav.chekak.chekakmessenger.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.activities.PrivateChatActivity
+import com.developer.timurnav.chekak.chekakmessenger.dao.ChatsDao
 import com.developer.timurnav.chekak.chekakmessenger.model.User
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
@@ -17,6 +17,8 @@ class UsersListItemAdapter(
         private val list: List<User>,
         private val context: Context
 ) : RecyclerView.Adapter<UsersListItemAdapter.UserListItemViewHolder>() {
+
+    private val chatDao = ChatsDao()
 
     override fun onBindViewHolder(holder: UserListItemViewHolder, position: Int) {
         holder.bindView(list[position])
@@ -47,9 +49,14 @@ class UsersListItemAdapter(
             }
 
             itemView.setOnClickListener {
-                val intent = Intent(context, PrivateChatActivity::class.java)
-                intent.putExtra("USER_ID", user.id)
-                context.startActivity(intent)
+                chatDao.fetchPrivateChatIdWithUser(
+                        userId = user.id,
+                        onIdFetched = {
+                            val intent = Intent(context, PrivateChatActivity::class.java)
+                            intent.putExtra(PrivateChatActivity.CHAT_ID_KEY, it)
+                            context.startActivity(intent)
+                        }
+                )
             }
         }
     }

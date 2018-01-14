@@ -8,21 +8,40 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class PrivateChatDao {
+class ChatsDao {
 
-    fun fetchChat(chatId: String,
-                  onMessagesSetChanged: (List<OwnedMessage>) -> Unit) {
+    fun fetchMyChatsMappings(onPrivateChatMappingFetched: (Map<String, String>) -> Unit, onFailed: (String) -> Unit = {}) {
+        allChatsMapping()
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        onFailed(error.message)
+                    }
+
+                    override fun onDataChange(mappingSnapshot: DataSnapshot) {
+                        onPrivateChatMappingFetched(
+                                mappingSnapshot
+                                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                                        .child("private").children
+                                        .map { it.key to (it.value as String) }
+                                        .toMap()
+                        )
+                    }
+                })
+    }
+
+    fun listenMessages(chatId: String,
+                       onMessagesSetChanged: (List<OwnedMessage>) -> Unit) {
         val myId = FirebaseAuth.getInstance().currentUser!!.uid
 
-        allPrivateChatsRef()
+        allChatsRef()
                 .child(chatId)
                 .child("messages")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError?) {
                     }
 
-                    override fun onDataChange(usersSnapshot: DataSnapshot) {
-                        val messages = usersSnapshot.children
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val messages = snapshot.children
                                 .map(Message.Companion::mapper)
                                 .map { OwnedMessage(isMine = myId == it.authorId, message = it) }
                         onMessagesSetChanged(messages)
@@ -30,12 +49,27 @@ class PrivateChatDao {
                 })
     }
 
+    fun listenChatUsers(chatId: String, onUsersSetChanged: (List<String>) -> Unit) {
+        allChatsRef()
+                .child(chatId)
+                .child("users")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val usersId = snapshot.children.map { it.value as String }
+                        onUsersSetChanged(usersId)
+                    }
+                })
+    }
+
     fun sendMessageToChat(chatId: String, message: String) {
-        val messageKey = allPrivateChatsRef()
+        val messageKey = allChatsRef()
                 .child(chatId)
                 .child("messages")
                 .push().key
-        allPrivateChatsRef()
+        allChatsRef()
                 .child(chatId)
                 .child("messages")
                 .child(messageKey)
@@ -47,11 +81,12 @@ class PrivateChatDao {
                 ))
     }
 
-    fun fetchChatIdWithUser(userId: String,
-                            onIdFetched: (String) -> Unit,
-                            onFailed: (String) -> Unit = {}) {
-        allPrivateChatsMappingRef()
+    fun fetchPrivateChatIdWithUser(userId: String,
+                                   onIdFetched: (String) -> Unit,
+                                   onFailed: (String) -> Unit = {}) {
+        allChatsMapping()
                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                .child("private")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                         onFailed(error.message)
@@ -60,7 +95,7 @@ class PrivateChatDao {
                     override fun onDataChange(allPrivateChats: DataSnapshot) {
                         val chat = allPrivateChats.children.singleOrNull { userId == it.key }
                         if (chat == null) {
-                            createChatWith(userId = userId, onCreated = onIdFetched, onFailed = onFailed)
+                            createPrivateChatWith(userId = userId, onCreated = onIdFetched, onFailed = onFailed)
                         } else {
                             onIdFetched(chat.value as String)
                         }
@@ -68,26 +103,27 @@ class PrivateChatDao {
                 })
     }
 
-    private fun createChatWith(userId: String,
-                               onCreated: (String) -> Unit = {},
-                               onFailed: (String) -> Unit = {}
-    ) {
+    private fun createPrivateChatWith(userId: String,
+                                      onCreated: (String) -> Unit = {},
+                                      onFailed: (String) -> Unit = {}) {
         val myId = FirebaseAuth.getInstance().currentUser!!.uid
 
-        val key = allPrivateChatsRef().push().key
-        allPrivateChatsRef()
+        val key = allChatsRef().push().key
+        allChatsRef()
                 .child(key)
-                .setValue(mapOf("users" to listOf(userId, myId)))
+                .setValue(mapOf("users" to listOf(userId, myId), "private" to true))
                 .addOnCompleteListener {
                     if (it.isSuccessful)
-                        allPrivateChatsMappingRef()
+                        allChatsMapping()
                                 .child(myId)
+                                .child("private")
                                 .child(userId)
                                 .setValue(key)
                                 .addOnCompleteListener {
                                     if (it.isSuccessful) {
-                                        allPrivateChatsMappingRef()
+                                        allChatsMapping()
                                                 .child(userId)
+                                                .child("private")
                                                 .child(myId)
                                                 .setValue(key)
                                                 .addOnCompleteListener {
@@ -106,11 +142,11 @@ class PrivateChatDao {
                 }
     }
 
-    private fun allPrivateChatsRef() =
+    private fun allChatsRef() =
             FirebaseDatabase.getInstance().reference
-                    .child("Chats")
+                    .child("chats")
 
-    private fun allPrivateChatsMappingRef() =
+    private fun allChatsMapping() =
             FirebaseDatabase.getInstance().reference
-                    .child("PrivateChatsMapping")
+                    .child("chats_mapping")
 }

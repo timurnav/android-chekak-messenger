@@ -1,62 +1,76 @@
-package com.developer.timurnav.chekak.chekakmessenger.fragments
+package com.developer.timurnav.chekak.chekakmessenger.activities
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.developer.timurnav.chekak.chekakmessenger.R
 import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
 import com.developer.timurnav.chekak.chekakmessenger.model.User
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_users.*
+import kotlinx.android.synthetic.main.activity_new_chat.*
 import java.util.concurrent.TimeUnit
 
-class UsersFragment : Fragment() {
+class NewChatActivity : AppCompatActivity() {
 
     private val userDao = UserDao()
 
     private val usersList = ArrayList<User>()
     private val usersDisplayedList = ArrayList<User>()
-
-    private lateinit var adapter: UsersListItemAdapter
+    private val adapter = UsersListItemAdapter(usersDisplayedList, this)
 
     private var currentNameFilter = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_users, container, false)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_new_chat)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        adapter = UsersListItemAdapter(usersDisplayedList, context!!)
-
-        usersRecyclerView.setHasFixedSize(true)
         usersRecyclerView.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         usersRecyclerView.adapter = adapter
+
+        initToolbar()
 
         userDao.fetchAllUsers(onFetched = { fetchedList ->
             val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
             usersList.clear()
             fetchedList
-                    .filterTo(usersList, { currentUserId != it.id })
+                    .filter { currentUserId != it.id }
+                    .sortedBy { it.name }
+                    .toCollection(usersList)
             filterUsersList()
         })
 
         startFiltering()
     }
 
+    private fun initToolbar() {
+        setSupportActionBar(toolbarNewChat)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        buttonNewChatSearch.setOnClickListener {
+            layoutNewChatBasic.visibility = View.GONE
+            layoutNewChatSearch.visibility = View.VISIBLE
+        }
+
+        buttonNewChatCancelSearch.setOnClickListener {
+            if (editTextNewChatNamesListFilter.text.isEmpty()) {
+                layoutNewChatBasic.visibility = View.VISIBLE
+                layoutNewChatSearch.visibility = View.GONE
+            } else {
+                editTextNewChatNamesListFilter.text.clear()
+            }
+        }
+    }
+
     private fun startFiltering() {
         val thread = Thread({
             while (true) {
-                editTextNamesListFilter?.let {
-                    val nameFilter = editTextNamesListFilter.text.toString().trim()
+                editTextNewChatNamesListFilter?.let {
+                    val nameFilter = editTextNewChatNamesListFilter.text.toString().trim()
                     if (nameFilter.isNotEmpty() || nameFilter != currentNameFilter) {
                         currentNameFilter = nameFilter
-                        activity!!.runOnUiThread({
+                        runOnUiThread({
                             filterUsersList()
                         })
                     }
