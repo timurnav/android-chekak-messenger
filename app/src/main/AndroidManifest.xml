@@ -30,7 +30,9 @@
         <activity
             android:name=".activities.PrivateChatActivity"
             android:label="@string/title_activity_private_chat"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".activities.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.UserInfoActivity" />
     </application>
 
 </manifest>

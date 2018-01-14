@@ -39,10 +39,12 @@ class UsersListItemAdapter(
             textViewUserName.text = user.name
             textViewUserStatus.text = user.status
 
-            Picasso.with(context)
-                    .load(user.thumbImage)
-                    .placeholder(R.drawable.ic_person_black_48dp)
-                    .into(imageViewUserThumbnail)
+            if (user.thumbImage.isNotEmpty()) {
+                Picasso.with(context)
+                        .load(user.thumbImage)
+                        .placeholder(R.drawable.ic_person_black_48dp)
+                        .into(imageViewUserThumbnail)
+            }
 
             itemView.setOnClickListener {
                 val intent = Intent(context, PrivateChatActivity::class.java)

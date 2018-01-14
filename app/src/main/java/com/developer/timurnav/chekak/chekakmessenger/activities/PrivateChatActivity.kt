@@ -1,5 +1,6 @@
 package com.developer.timurnav.chekak.chekakmessenger.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import com.developer.timurnav.chekak.chekakmessenger.R
 import com.developer.timurnav.chekak.chekakmessenger.dao.PrivateChatDao
 import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
 import com.developer.timurnav.chekak.chekakmessenger.model.OwnedMessage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_private_chat.*
 
 class PrivateChatActivity : AppCompatActivity() {
@@ -20,7 +22,6 @@ class PrivateChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_private_chat)
-        setSupportActionBar(toolbar)
 
         recyclerViewPrivateMessages.adapter = adapter
         val layoutManager = LinearLayoutManager(this)
@@ -28,14 +29,7 @@ class PrivateChatActivity : AppCompatActivity() {
 
         val userId = intent.getStringExtra("USER_ID")
 
-        userDao.listenUserById(userId, onUserUpdated = {
-            //            textViewUserName.text = it.name
-//            Picasso.with(this)
-//                    .load(it.thumbImage)
-//                    .placeholder(R.drawable.ic_person_black_48dp)
-//                    .into(imageViewUserThumbnail)
-
-        })
+        initToolbar(userId)
 
         chatDao.fetchChatIdWithUser(
                 userId = userId,
@@ -55,5 +49,25 @@ class PrivateChatActivity : AppCompatActivity() {
                     }
                 }
         )
+
+        layoutUserInfo.setOnClickListener {
+            startActivity(Intent(this, UserInfoActivity::class.java))
+        }
     }
+
+    private fun initToolbar(userId: String) {
+        userDao.listenUserById(userId, onUserUpdated = {
+            textViewPrivateChatUserName.text = it.name
+            if (it.thumbImage.isNotEmpty()) {
+                Picasso.with(this)
+                        .load(it.thumbImage)
+                        .placeholder(R.drawable.ic_person_black_48dp)
+                        .into(imageViewPrivateChatThumbnail)
+            }
+        })
+
+        setSupportActionBar(toolbarPrivateChat)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
 }

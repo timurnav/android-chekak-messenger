@@ -47,18 +47,20 @@ class PrivateChatDao {
                 ))
     }
 
-    fun fetchChatIdWithUser(userId: String, onIdFetched: (String) -> Unit) {
+    fun fetchChatIdWithUser(userId: String,
+                            onIdFetched: (String) -> Unit,
+                            onFailed: (String) -> Unit = {}) {
         allPrivateChatsMappingRef()
                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
-                        //hz
+                        onFailed(error.message)
                     }
 
                     override fun onDataChange(allPrivateChats: DataSnapshot) {
                         val chat = allPrivateChats.children.singleOrNull { userId == it.key }
                         if (chat == null) {
-                            createChatWith(userId, { onIdFetched(it) })
+                            createChatWith(userId = userId, onCreated = onIdFetched, onFailed = onFailed)
                         } else {
                             onIdFetched(chat.value as String)
                         }
@@ -66,7 +68,10 @@ class PrivateChatDao {
                 })
     }
 
-    private fun createChatWith(userId: String, onCreated: (String) -> Unit, onFailed: (String) -> Unit = {}) {
+    private fun createChatWith(userId: String,
+                               onCreated: (String) -> Unit = {},
+                               onFailed: (String) -> Unit = {}
+    ) {
         val myId = FirebaseAuth.getInstance().currentUser!!.uid
 
         val key = allPrivateChatsRef().push().key
