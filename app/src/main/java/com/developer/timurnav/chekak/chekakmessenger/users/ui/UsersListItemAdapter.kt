@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.messaging.dao.ChatsDao
+import com.developer.timurnav.chekak.chekakmessenger.chats.dao.ChatsDao
 import com.developer.timurnav.chekak.chekakmessenger.messaging.ui.PrivateChatActivity
 import com.developer.timurnav.chekak.chekakmessenger.users.model.User
 import com.squareup.picasso.Picasso
@@ -50,7 +50,7 @@ class UsersListItemAdapter(
             }
 
             itemView.setOnClickListener {
-                chatDao.fetchPrivateChatIdWithUser(
+                chatDao.getChatIdWithUser(
                         userId = user.id,
                         onIdFetched = {
                             val intent = Intent(context, PrivateChatActivity::class.java)

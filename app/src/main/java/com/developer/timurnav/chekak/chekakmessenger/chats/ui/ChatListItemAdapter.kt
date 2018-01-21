@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.messaging.ui
+package com.developer.timurnav.chekak.chekakmessenger.chats.ui
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.messaging.model.ChatInfo
+import com.developer.timurnav.chekak.chekakmessenger.chats.model.ChatInfo
+import com.developer.timurnav.chekak.chekakmessenger.messaging.ui.PrivateChatActivity
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 

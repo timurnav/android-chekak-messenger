@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.messaging.model
+package com.developer.timurnav.chekak.chekakmessenger.chats.model
 
 data class ChatInfo(
         val thumbnail: String,

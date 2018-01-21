@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.messaging.ui.ChatsActivity
+import com.developer.timurnav.chekak.chekakmessenger.chats.ui.ChatsActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_landing_page.*
 

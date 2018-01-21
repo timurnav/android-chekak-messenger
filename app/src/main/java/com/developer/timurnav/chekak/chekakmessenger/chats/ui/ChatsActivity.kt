@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.messaging.ui
+package com.developer.timurnav.chekak.chekakmessenger.chats.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.messaging.dao.ChatsDao
-import com.developer.timurnav.chekak.chekakmessenger.messaging.model.ChatInfo
+import com.developer.timurnav.chekak.chekakmessenger.chats.dao.ChatsDao
+import com.developer.timurnav.chekak.chekakmessenger.chats.model.ChatInfo
 import com.developer.timurnav.chekak.chekakmessenger.profile.ui.LandingPageActivity
 import com.developer.timurnav.chekak.chekakmessenger.profile.ui.SettingsActivity
-import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
 import com.developer.timurnav.chekak.chekakmessenger.users.ui.NewChatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chats.*
@@ -19,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_chats.*
 class ChatsActivity : AppCompatActivity() {
 
     private val chatsDao = ChatsDao()
-    private val userDao = UserDao()
 
     private val chatsList = ArrayList<ChatInfo>()
     private val adapter = ChatListItemAdapter(chatsList, this)
@@ -29,16 +27,10 @@ class ChatsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chats)
         setSupportActionBar(toolbarChats)
 
-        chatsDao.fetchMyChatsMappings(onPrivateChatMappingFetched = { userIdOnChatMapping ->
-            val userIds = userIdOnChatMapping.keys
-            userDao.fetchAllUsers(onFetched = { allUsers ->
-                chatsList.clear()
-                allUsers.filter { userIds.contains(it.id) }
-                        .mapTo(chatsList, { user ->
-                            ChatInfo(user.thumbImage, user.name, userIdOnChatMapping[user.id]!!)
-                        })
-                adapter.notifyDataSetChanged()
-            })
+        chatsDao.getAllChats(onChatsFetched = {
+            chatsList.clear()
+            chatsList.addAll(it)
+            adapter.notifyDataSetChanged()
         })
 
         recyclerViewChatsList.layoutManager = LinearLayoutManager(this)

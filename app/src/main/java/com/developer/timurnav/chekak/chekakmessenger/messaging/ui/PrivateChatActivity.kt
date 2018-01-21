@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.messaging.dao.ChatsDao
+import com.developer.timurnav.chekak.chekakmessenger.chats.dao.ChatsRemoteRepository
 import com.developer.timurnav.chekak.chekakmessenger.messaging.model.OwnedMessage
 import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
 import com.developer.timurnav.chekak.chekakmessenger.users.ui.UserInfoActivity
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_private_chat.*
 
 class PrivateChatActivity : AppCompatActivity() {
 
-    private val chatDao = ChatsDao()
+    private val chatDao = ChatsRemoteRepository()
     private val userDao = UserDao()
 
     private val messages = ArrayList<OwnedMessage>()

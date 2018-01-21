@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.messaging.dao
+package com.developer.timurnav.chekak.chekakmessenger.chats.dao
 
 import com.developer.timurnav.chekak.chekakmessenger.messaging.model.Message
 import com.developer.timurnav.chekak.chekakmessenger.messaging.model.OwnedMessage
@@ -8,26 +8,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ChatsDao {
-
-    fun fetchMyChatsMappings(onPrivateChatMappingFetched: (Map<String, String>) -> Unit, onFailed: (String) -> Unit = {}) {
-        allChatsMapping()
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        onFailed(error.message)
-                    }
-
-                    override fun onDataChange(mappingSnapshot: DataSnapshot) {
-                        onPrivateChatMappingFetched(
-                                mappingSnapshot
-                                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                                        .child("private").children
-                                        .map { it.key to (it.value as String) }
-                                        .toMap()
-                        )
-                    }
-                })
-    }
+class ChatsRemoteRepository {
 
     fun listenMessages(chatId: String,
                        onMessagesSetChanged: (List<OwnedMessage>) -> Unit) {
@@ -81,9 +62,8 @@ class ChatsDao {
                 ))
     }
 
-    fun fetchPrivateChatIdWithUser(userId: String,
-                                   onIdFetched: (String) -> Unit,
-                                   onFailed: (String) -> Unit = {}) {
+    fun fetchAllPrivateChatIds(onIdsFetched: (Map<String, String>) -> Unit,
+                               onFailed: (String) -> Unit = {}) {
         allChatsMapping()
                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
                 .child("private")
@@ -93,19 +73,16 @@ class ChatsDao {
                     }
 
                     override fun onDataChange(allPrivateChats: DataSnapshot) {
-                        val chat = allPrivateChats.children.singleOrNull { userId == it.key }
-                        if (chat == null) {
-                            createPrivateChatWith(userId = userId, onCreated = onIdFetched, onFailed = onFailed)
-                        } else {
-                            onIdFetched(chat.value as String)
-                        }
+                        val chatsMap = allPrivateChats.children
+                                .map { it.key to it.value as String }.toMap()
+                        onIdsFetched(chatsMap)
                     }
                 })
     }
 
-    private fun createPrivateChatWith(userId: String,
-                                      onCreated: (String) -> Unit = {},
-                                      onFailed: (String) -> Unit = {}) {
+    fun createPrivateChatWith(userId: String,
+                              onCreated: (String) -> Unit = {},
+                              onFailed: (String) -> Unit = {}) {
         val myId = FirebaseAuth.getInstance().currentUser!!.uid
 
         val key = allChatsRef().push().key

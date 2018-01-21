@@ -29,20 +29,20 @@
         <activity
             android:name=".messaging.ui.PrivateChatActivity"
             android:label="@string/title_activity_private_chat"
-            android:parentActivityName=".messaging.ui.ChatsActivity"
+            android:parentActivityName=".chats.ui.ChatsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".users.ui.UserInfoActivity" />
         <activity
-            android:name=".messaging.ui.ChatsActivity"
+            android:name=".chats.ui.ChatsActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".users.ui.NewChatActivity"
-            android:parentActivityName=".messaging.ui.ChatsActivity"
+            android:parentActivityName=".chats.ui.ChatsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".messaging.service.MessageService"
+            android:name=".chats.service.ChatsService"
             android:enabled="true" />
     </application>
 
