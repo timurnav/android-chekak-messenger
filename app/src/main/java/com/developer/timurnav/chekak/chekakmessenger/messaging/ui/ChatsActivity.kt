@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.messaging.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.ChatsDao
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
-import com.developer.timurnav.chekak.chekakmessenger.model.ChatInfo
+import com.developer.timurnav.chekak.chekakmessenger.messaging.dao.ChatsDao
+import com.developer.timurnav.chekak.chekakmessenger.messaging.model.ChatInfo
+import com.developer.timurnav.chekak.chekakmessenger.profile.ui.LandingPageActivity
+import com.developer.timurnav.chekak.chekakmessenger.profile.ui.SettingsActivity
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.users.ui.NewChatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_chats.*
 

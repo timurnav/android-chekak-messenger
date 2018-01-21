@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.profile.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -9,8 +9,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
-import com.developer.timurnav.chekak.chekakmessenger.model.User
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.users.model.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_create_account.*
 

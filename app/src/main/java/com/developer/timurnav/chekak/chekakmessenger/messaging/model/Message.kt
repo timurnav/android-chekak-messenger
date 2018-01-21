@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.model
+package com.developer.timurnav.chekak.chekakmessenger.messaging.model
 
 import com.google.firebase.database.DataSnapshot
 

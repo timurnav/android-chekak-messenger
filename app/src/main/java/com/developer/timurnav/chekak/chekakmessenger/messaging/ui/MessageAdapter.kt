@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.messaging.ui
 
 import android.content.Context
 import android.graphics.Color
@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.model.OwnedMessage
+import com.developer.timurnav.chekak.chekakmessenger.messaging.model.OwnedMessage
 import java.util.*
 
 class MessageAdapter(

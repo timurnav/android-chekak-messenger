@@ -1,12 +1,12 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.users.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
-import com.developer.timurnav.chekak.chekakmessenger.model.User
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.users.model.User
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_new_chat.*
 import java.util.concurrent.TimeUnit

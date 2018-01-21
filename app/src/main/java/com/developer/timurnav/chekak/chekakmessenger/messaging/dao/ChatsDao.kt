@@ -1,7 +1,7 @@
-package com.developer.timurnav.chekak.chekakmessenger.dao
+package com.developer.timurnav.chekak.chekakmessenger.messaging.dao
 
-import com.developer.timurnav.chekak.chekakmessenger.model.Message
-import com.developer.timurnav.chekak.chekakmessenger.model.OwnedMessage
+import com.developer.timurnav.chekak.chekakmessenger.messaging.model.Message
+import com.developer.timurnav.chekak.chekakmessenger.messaging.model.OwnedMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

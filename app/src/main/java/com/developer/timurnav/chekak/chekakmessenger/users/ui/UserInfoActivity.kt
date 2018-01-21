@@ -1,13 +1,14 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.users.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.developer.timurnav.chekak.chekakmessenger.R
 
-class EditProfileActivity : AppCompatActivity() {
+class UserInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+        setContentView(R.layout.activity_user_info)
     }
+
 }

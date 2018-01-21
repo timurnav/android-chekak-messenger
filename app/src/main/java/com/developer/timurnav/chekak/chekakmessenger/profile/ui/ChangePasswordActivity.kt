@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.profile.ui
 
 import android.app.Activity
 import android.content.Intent

@@ -1,6 +1,6 @@
-package com.developer.timurnav.chekak.chekakmessenger.dao
+package com.developer.timurnav.chekak.chekakmessenger.users.dao
 
-import com.developer.timurnav.chekak.chekakmessenger.model.User
+import com.developer.timurnav.chekak.chekakmessenger.users.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 

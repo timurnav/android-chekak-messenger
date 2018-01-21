@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.profile.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage

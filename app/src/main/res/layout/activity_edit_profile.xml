@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.developer.timurnav.chekak.chekakmessenger.activities.EditProfileActivity">
+    tools:context="com.developer.timurnav.chekak.chekakmessenger.profile.ui.EditProfileActivity">
 
 
     <TextView

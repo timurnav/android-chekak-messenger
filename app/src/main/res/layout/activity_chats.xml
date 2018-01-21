@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.developer.timurnav.chekak.chekakmessenger.activities.ChatsActivity">
+    tools:context="com.developer.timurnav.chekak.chekakmessenger.messaging.ui.ChatsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

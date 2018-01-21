@@ -1,13 +1,14 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.messaging.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.ChatsDao
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
-import com.developer.timurnav.chekak.chekakmessenger.model.OwnedMessage
+import com.developer.timurnav.chekak.chekakmessenger.messaging.dao.ChatsDao
+import com.developer.timurnav.chekak.chekakmessenger.messaging.model.OwnedMessage
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.users.ui.UserInfoActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_private_chat.*

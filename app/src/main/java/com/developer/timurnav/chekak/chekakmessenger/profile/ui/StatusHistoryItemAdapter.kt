@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.profile.ui
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

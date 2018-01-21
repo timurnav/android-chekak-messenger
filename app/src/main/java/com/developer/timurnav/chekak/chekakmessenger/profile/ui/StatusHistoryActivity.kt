@@ -1,4 +1,4 @@
-package com.developer.timurnav.chekak.chekakmessenger.activities
+package com.developer.timurnav.chekak.chekakmessenger.profile.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.developer.timurnav.chekak.chekakmessenger.R
-import com.developer.timurnav.chekak.chekakmessenger.dao.StatusesHistoryDao
-import com.developer.timurnav.chekak.chekakmessenger.dao.UserDao
+import com.developer.timurnav.chekak.chekakmessenger.profile.dao.StatusesHistoryDao
+import com.developer.timurnav.chekak.chekakmessenger.users.dao.UserDao
 import kotlinx.android.synthetic.main.activity_status_history.*
 import java.util.concurrent.TimeUnit
 
